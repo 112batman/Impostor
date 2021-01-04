@@ -101,21 +101,24 @@ namespace Impostor.Server.Net.Inner.Objects
             await _game.FinishRpcAsync(writer, player.OwnerId);
         }
 
-        public async ValueTask SetMurderedByAsync(IClientPlayer impostor)
+        public async ValueTask SetMurderedByAsync(IClientPlayer impostor, bool performChecks = true)
         {
-            if (impostor.Character == null)
+            if (performChecks)
             {
-                throw new ImpostorException("Character is null.");
-            }
+                if (impostor.Character == null)
+                {
+                    throw new ImpostorException("Character is null.");
+                }
 
-            if (!impostor.Character.PlayerInfo.IsImpostor)
-            {
-                throw new ImpostorProtocolException("Plugin tried to murder a player while the impostor specified was not an impostor.");
-            }
+                if (!impostor.Character.PlayerInfo.IsImpostor)
+                {
+                    throw new ImpostorProtocolException("Plugin tried to murder a player while the impostor specified was not an impostor.");
+                }
 
-            if (impostor.Character.PlayerInfo.IsDead)
-            {
-                throw new ImpostorProtocolException("Plugin tried to murder a player while the impostor specified was dead.");
+                if (impostor.Character.PlayerInfo.IsDead)
+                {
+                    throw new ImpostorProtocolException("Plugin tried to murder a player while the impostor specified was dead.");
+                }
             }
 
             if (PlayerInfo.IsDead)

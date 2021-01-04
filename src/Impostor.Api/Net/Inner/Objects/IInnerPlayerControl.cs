@@ -110,7 +110,8 @@ namespace Impostor.Api.Net.Inner.Objects
         ///     Visible to all players.
         /// </summary>
         /// /// <param name="impostor">The Impostor who kill.</param>
+        /// /// <param name="performChecks">Check if specified impostor is an impostor and is alive.</param>
         /// <returns>Task that must be awaited.</returns>
-        ValueTask SetMurderedByAsync(IClientPlayer impostor);
+        ValueTask SetMurderedByAsync(IClientPlayer impostor, bool performChecks = true);
     }
 }
